@@ -1,30 +1,37 @@
 project "GLFW"
 	kind "StaticLib"
 	language "C"
+	staticruntime "off"
 
 	targetdir ("bin/" .. outputdir)
 	objdir ("bin-int/" .. outputdir)
 
-	files
-	{
+	files {
 		"include/GLFW/glfw3.h",
 		"include/GLFW/glfw3native.h",
+
 		"src/glfw_config.h",
 		"src/context.c",
 		"src/init.c",
 		"src/input.c",
 		"src/monitor.c",
+
+		"src/null_init.c",
+		"src/null_joystick.c",
+		"src/null_monitor.c",
+		"src/null_window.c",
+
+		"src/platform.c",
 		"src/vulkan.c",
 		"src/window.c"
 	}
+
 	filter "system:linux"
 		pic "On"
 
 		systemversion "latest"
-		staticruntime "On"
 
-		files
-		{
+		files {
 			"src/x11_init.c",
 			"src/x11_monitor.c",
 			"src/x11_window.c",
@@ -44,12 +51,12 @@ project "GLFW"
 
 	filter "system:windows"
 		systemversion "latest"
-		staticruntime "On"
 
-		files
-		{
+		files {
+			
 			"src/win32_init.c",
 			"src/win32_joystick.c",
+			"src/win32_module.c",
 			"src/win32_monitor.c",
 			"src/win32_time.c",
 			"src/win32_thread.c",
